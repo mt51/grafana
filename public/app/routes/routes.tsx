@@ -23,11 +23,8 @@ import { getPublicDashboardRoutes } from '../features/dashboard/routes';
 
 export const extraRoutes: RouteDescriptor[] = [];
 
-export function getAppRoutes(): RouteDescriptor[] {
+export function getDashboardRoutes(): RouteDescriptor[] {
   return [
-    // Based on the Grafana configuration standalone plugin pages can even override and extend existing core pages, or they can register new routes under existing ones.
-    // In order to make it possible we need to register them first due to how `<Switch>` is evaluating routes. (This will be unnecessary once/when we upgrade to React Router v6 and start using `<Routes>` instead.)
-    ...getAppPluginRoutes(),
     {
       path: '/',
       pageClass: 'page-dashboard',
@@ -66,34 +63,6 @@ export function getAppRoutes(): RouteDescriptor[] {
       routeName: DashboardRoutes.Normal,
       component: SafeDynamicImport(
         () => import(/* webpackChunkName: "DashboardPage" */ '../features/dashboard/containers/DashboardPage')
-      ),
-    },
-    {
-      path: '/d-solo/:uid/:slug',
-      pageClass: 'dashboard-solo',
-      routeName: DashboardRoutes.Normal,
-      chromeless: true,
-      component: SafeDynamicImport(
-        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
-      ),
-    },
-    // This route handles embedding of snapshot/scripted dashboard panels
-    {
-      path: '/dashboard-solo/:type/:slug',
-      pageClass: 'dashboard-solo',
-      routeName: DashboardRoutes.Normal,
-      chromeless: true,
-      component: SafeDynamicImport(
-        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
-      ),
-    },
-    {
-      path: '/d-solo/:uid',
-      pageClass: 'dashboard-solo',
-      routeName: DashboardRoutes.Normal,
-      chromeless: true,
-      component: SafeDynamicImport(
-        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
       ),
     },
     {
@@ -196,6 +165,44 @@ export function getAppRoutes(): RouteDescriptor[] {
           : import(/* webpackChunkName: "explore-feature-toggle-page" */ 'app/features/explore/FeatureTogglePage')
       ),
     },
+  ];
+}
+
+export function getAppRoutes(): RouteDescriptor[] {
+  return [
+    // Based on the Grafana configuration standalone plugin pages can even override and extend existing core pages, or they can register new routes under existing ones.
+    // In order to make it possible we need to register them first due to how `<Switch>` is evaluating routes. (This will be unnecessary once/when we upgrade to React Router v6 and start using `<Routes>` instead.)
+    ...getAppPluginRoutes(),
+    ...getDashboardRoutes(),
+    {
+      path: '/d-solo/:uid/:slug',
+      pageClass: 'dashboard-solo',
+      routeName: DashboardRoutes.Normal,
+      chromeless: true,
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
+      ),
+    },
+    // This route handles embedding of snapshot/scripted dashboard panels
+    {
+      path: '/dashboard-solo/:type/:slug',
+      pageClass: 'dashboard-solo',
+      routeName: DashboardRoutes.Normal,
+      chromeless: true,
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
+      ),
+    },
+    {
+      path: '/d-solo/:uid',
+      pageClass: 'dashboard-solo',
+      routeName: DashboardRoutes.Normal,
+      chromeless: true,
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "SoloPanelPage" */ '../features/dashboard/containers/SoloPanelPage')
+      ),
+    },
+
     {
       path: '/apps',
       component: () => <NavLandingPage navId="apps" />,

@@ -2,7 +2,7 @@ import { css, cx } from '@emotion/css';
 import classNames from 'classnames';
 import React, { PropsWithChildren } from 'react';
 
-import { GrafanaTheme2, PageLayoutType } from '@grafana/data';
+import { GrafanaTheme2 } from '@grafana/data';
 import { useStyles2 } from '@grafana/ui';
 import { useGrafana } from 'app/core/context/GrafanaContext';
 import { CommandPalette } from 'app/features/commandPalette/CommandPalette';
@@ -10,8 +10,6 @@ import { KioskMode } from 'app/types';
 
 import { MegaMenu } from './MegaMenu/MegaMenu';
 import { NavToolbar } from './NavToolbar/NavToolbar';
-import { SectionNav } from './SectionNav/SectionNav';
-import { TopSearchBar } from './TopBar/TopSearchBar';
 import { TOP_BAR_LEVEL_HEIGHT } from './types';
 
 export interface Props extends PropsWithChildren<{}> {}
@@ -33,11 +31,12 @@ export function AppChrome({ children }: Props) {
   // We check chromeless twice here instead of having a separate path so {children}
   // doesn't get re-mounted when chromeless goes from true to false.
 
+  console.log('state:::', state);
+
   return (
     <main className={classNames('main-view', searchBarHidden && 'main-view--search-bar-hidden')}>
       {!state.chromeless && (
         <div className={cx(styles.topNav)}>
-          {!searchBarHidden && <TopSearchBar />}
           <NavToolbar
             searchBarHidden={searchBarHidden}
             sectionNav={state.sectionNav.node}
@@ -51,7 +50,6 @@ export function AppChrome({ children }: Props) {
       )}
       <div className={contentClass}>
         <div className={styles.panes}>
-          {state.layout === PageLayoutType.Standard && state.sectionNav && <SectionNav model={state.sectionNav} />}
           <div className={styles.pageContainer}>{children}</div>
         </div>
       </div>
