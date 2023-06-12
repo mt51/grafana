@@ -6,7 +6,7 @@ import { CompatRouter, CompatRoute } from 'react-router-dom-v5-compat';
 
 import { config, locationService, navigationLogger, reportInteraction } from '@grafana/runtime';
 import { ErrorBoundaryAlert, GlobalStyles, ModalRoot, ModalsProvider, PortalContainer } from '@grafana/ui';
-import { getDashboardRoutes } from 'app/routes/routes';
+import { getDashboardRoutes } from 'app/routes/dashboard-routes';
 // import { getAppRoutes } from 'app/routes/routes';
 import { store } from 'app/store/store';
 

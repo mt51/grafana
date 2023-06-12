@@ -20,9 +20,16 @@ module.exports = (env = {}) =>
     devtool: 'source-map',
 
     entry: {
-      app: './public/app/index.sdk.ts',
+      sdk: './public/app/index.sdk.ts',
       dark: './public/sass/grafana.dark.scss',
       light: './public/sass/grafana.light.scss',
+    },
+    output: {
+      clean: true,
+      libraryTarget: 'umd',
+      filename: '[name].js',
+      path: path.resolve(__dirname, '../../public/sdk-build'),
+      publicPath: 'public/sdk-build/',
     },
 
     module: {
@@ -47,6 +54,7 @@ module.exports = (env = {}) =>
     },
     optimization: {
       nodeEnv: 'production',
+      runtimeChunk: false,
       minimize: parseInt(env.noMinify, 10) !== 1,
       minimizer: [
         new ESBuildMinifyPlugin({
@@ -97,4 +105,5 @@ module.exports = (env = {}) =>
         });
       },
     ],
+
   });
