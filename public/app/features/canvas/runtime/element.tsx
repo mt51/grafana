@@ -20,7 +20,7 @@ import { Scene } from './scene';
 
 let counter = 0;
 
-const SVGElements = new Set<string>(['parallelogram', 'triangle', 'cloud', 'ellipse']);
+export const SVGElements = new Set<string>(['parallelogram', 'triangle', 'cloud', 'ellipse']);
 
 export class ElementState implements LayerElement {
   // UID necessary for moveable to work (for now)
@@ -492,11 +492,14 @@ export class ElementState implements LayerElement {
   };
 
   applyRotate = (event: OnRotate) => {
-    const absoluteRotationDegree = event.absoluteRotation;
-
+    const rotationDelta = event.delta;
     const placement = this.options.placement!;
+    const placementRotation = placement.rotation ?? 0;
+
+    const calculatedRotation = placementRotation + rotationDelta;
+
     // Ensure rotation is between 0 and 360
-    placement.rotation = absoluteRotationDegree - Math.floor(absoluteRotationDegree / 360) * 360;
+    placement.rotation = calculatedRotation - Math.floor(calculatedRotation / 360) * 360;
     event.target.style.transform = event.transform;
   };
 
